@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".WriteActivity">
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+
+       >
+
+
+
+        <Button
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOAD"
+            android:id="@+id/load"
+            android:layout_weight="3"
+            android:background="@color/Greenbtn"
+            android:textColor="@color/colorWhite"
+            />
+
+
+
+        <Button
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SAVE"
+            android:id="@+id/save"
+            android:layout_weight="3"
+            android:background="@color/Greenbtn"
+            android:textColor="@color/colorWhite"/>
+
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DELETE"
+            android:id="@+id/delete"
+            android:layout_weight="3"
+            android:background="@color/Greenbtn"
+            android:textColor="@color/colorWhite"/>
+
+    </LinearLayout>
+
+    <EditText
+
+        android:id="@+id/TitleText"
+        android:layout_width="match_parent"
+        android:hint="Title"
+        android:layout_height="match_parent"
+        android:layout_weight="13"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textIsSelectable="false" />
+
+    <!--   <ImageView
+        android:id="@+id/WriteImeage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:layout_weight="9"
+        android:gravity="top"
+        android:textIsSelectable="true"
+        android:background="@mipmap/naverimg"
+
+        />주석 내용 -->
+    <FrameLayout
+        android:id="@+id/FirstFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9"
+        >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+
+        android:gravity="top"
+        android:textIsSelectable="true"
+        android:background="@mipmap/naverimg"
+
+        >
+    </android.support.v4.view.ViewPager>
+
+    <ImageButton
+        android:layout_gravity="bottom|right"
+        android:id="@+id/imgBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete_forever_black_24dp"
+        android:background="@android:color/transparent"
+        />
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent"
+        android:id="@+id/lineimg"
+        />
+
+    <EditText
+        android:hint="Contents"
+        android:id="@+id/inputText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9"
+        android:gravity="top"
+        android:textIsSelectable="false" />
+
+    <FrameLayout
+        android:id="@+id/SecondFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="13.1"
+        >
+    <EditText
+        android:id="@+id/URLText"
+        android:layout_width="match_parent"
+        android:hint="URL"
+        android:layout_height="match_parent"
+        android:gravity="left|bottom"
+        android:textIsSelectable="false" />
+
+        <ImageButton
+            android:layout_gravity="right|bottom"
+            android:id="@+id/urlBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_send_black_24dp"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="10dp"
+            />
+
+    </FrameLayout>
+</LinearLayout>
+
+

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorGreen">#2DB400</color>
+    <color name="Greenbtn">#1EC800</color>
+    <color name="colorGreenDark">#4da247</color>
+    <color name="colorAccent">#2DE400</color>
+    <color name="colorWhite">#FFFFFF</color>
+</resources>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ReadActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorGreen"
+        android:text="DIARY LOG"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite"
+        android:textAlignment="center"
+        android:paddingTop="8dp"
+
+        />
+    <TextView
+        android:hint="title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="7dp"
+        android:layout_weight="2"
+
+        android:textIsSelectable="true"
+        android:id="@+id/outputTitle"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGreen"
+        />
+
+    <FrameLayout
+        android:id="@+id/FrameKey"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="13"
+        >
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager_read"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+
+        android:gravity="top"
+        android:textIsSelectable="true"
+
+        >
+    </android.support.v4.view.ViewPager>
+
+        <ImageView
+            android:layout_gravity="bottom|right"
+            android:id="@+id/imgMulti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_content_copy_black_24dp"
+            android:background="@android:color/transparent"
+            />
+
+    </FrameLayout>
+    <View
+        android:id="@+id/outputLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGreen"
+        />
+    <TextView
+        android:hint="Contents"
+        android:id="@+id/outputText"
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+          android:layout_weight="13"
+         android:gravity="top"
+         android:textIsSelectable="true"
+        android:background="@mipmap/naverimg"
+        android:padding="15dp"
+
+        />
+
+
+</LinearLayout>
