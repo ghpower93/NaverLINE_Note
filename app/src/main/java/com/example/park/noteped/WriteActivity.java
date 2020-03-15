@@ -1,11 +1,9 @@
 package com.example.park.noteped;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-
-import android.app.Application;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,29 +13,20 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-
 import android.provider.MediaStore;
-
-
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -45,33 +34,28 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 
 public class WriteActivity extends AppCompatActivity {
 
     private static String TAG = "WriteActivity";
     private static final int PICK_IMAGE_MULTIPLE = 1;
-    private static final int PICK_IMAGE_ONE = 2;
-
     private static final int PICK_FROM_CAMERA = 3;
 
     private File tempFile;
     Button load, save, delete;
    // ImageButton imgButton;
+   @SuppressLint("StaticFieldLeak")
    static EditText inputText;
     EditText TitleText;
      CustomAdapter CustomAdapter ;
 
-    String value = null;
     String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "LineNote";
     String PathImg = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "LineNoteImage";
     String PathTmpImg = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "LineTemp_img";
@@ -79,7 +63,6 @@ public class WriteActivity extends AppCompatActivity {
     File saveFile = new File(path);
     File saveFileimg = new File(PathImg);
 
-    //  File fileimg = new File(PathImg + "/" + msgImg);
     File[] listFiles;
     File[] listFilesIMG;
 
@@ -97,13 +80,7 @@ public class WriteActivity extends AppCompatActivity {
 
     EditText urlText;
     ImageButton urlButton;
-    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-    //ArrayList<Integer> listImage = new ArrayList<>();
-
-
-   // ArrayList<Uri> mArrayUri = new ArrayList<>();
-
+  //  FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
     View.OnClickListener listener2
              =new View.OnClickListener() {
@@ -176,8 +153,6 @@ public class WriteActivity extends AppCompatActivity {
 
                 try {
                     if (!(editname.getText().toString().contains(".txt"))) {
-                        if (!saveFile.exists()) saveFile.mkdirs();
-
 
                         File saveFile2 = new File(path, editname.getText() + ".txt");
 
@@ -188,7 +163,6 @@ public class WriteActivity extends AppCompatActivity {
 
                         writer.close();
 
-                        // String timeStamp = new SimpleDateFormat("HHmmss").format(new Date());
                         boolean CP=false;
                        for(int i=0; i<CustomAdapter.getCount();i++) {
                           CP = MakeCache( CustomAdapter.getItem(i), editname.getText().toString(), i + 1);
@@ -613,18 +587,13 @@ public class WriteActivity extends AppCompatActivity {
 
     private void goToAlbum() {
 
-        //ACTION_GET_CONTENT
-        //Intent intent = new Intent(Intent.ACTION_PICK);
+
         Intent intent = new Intent(Intent.ACTION_PICK);
-        // intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         intent.setType("image/*");
 
-        //"image/*"
+
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        //다수와 단일선택을 따로 만들어주자.
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        //   startActivityForResult(intent, PICK_FROM_ALBUM;
-        //      startActivityForResult(Intent.createChooser(intent,"Select Picture"), PICK_FROM_ALBUM);
         intent.putExtra("data",false);
         startActivityForResult(intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
 
@@ -655,12 +624,9 @@ public class WriteActivity extends AppCompatActivity {
 
                 int count=1;
 
-                // Get the Image from data
-               // data.setType("image/*");
+
                 imagePathList = new ArrayList<>();
                 imagePathList.clear();
-              //  CustomAdapter.clear();
-              //  CustomAdapter.notifyDataSetChanged();
                 if(data.getClipData() != null){
 
                      count = data.getClipData().getItemCount();
@@ -690,16 +656,12 @@ public class WriteActivity extends AppCompatActivity {
 
                 }
 
-                  //  Toast.makeText(getApplicationContext(),newCustomAdapter.getCount(),Toast.LENGTH_LONG).show();
 
 
             }
 
         else if(requestCode ==PICK_FROM_CAMERA)
     {
-       // CustomAdapter.clear();
-       // CustomAdapter.notifyDataSetChanged();
-       //dafaf
 
         setImage(tempFile);
     }
@@ -721,7 +683,7 @@ public class WriteActivity extends AppCompatActivity {
 
         File file = new File(uri.getPath());
         String filePath = file.getPath().split(":")[1];
-    //    String[] filePath = file.getPath().split(":");
+
         String[] filePathColumn = { MediaStore.Images.Media.DATA };
         String selection =  MediaStore.Images.Media._ID+"="+filePath;
 
@@ -731,12 +693,12 @@ public class WriteActivity extends AppCompatActivity {
         Log.i("TAG", filePath);
 
         Cursor cursor = getContentResolver().query(MediaStore.Images.Media.getContentUri("external"),filePathColumn, selection, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
+        if (cursor == null) {
             imagePath = uri.getPath();
             imagePathList.add(imagePath);
             cursor.close();
         }
-        /*if (cursor!=null)*/
+
             else {
             if(cursor.moveToFirst()) {
 
@@ -751,8 +713,7 @@ public class WriteActivity extends AppCompatActivity {
                 imagePath = cursor.getString(idx);
 
             }
-           // imagePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-           // imagePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+
             Log.i("TAG", imagePath);
             cursor.close();
             imagePathList.add(imagePath);
@@ -768,7 +729,6 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
        imageFragment = new ImageFragment();
         Bundle bundle = new Bundle();
         bundle.putString("imgRes", tmpf.getAbsolutePath());
-       // CustomAdapter.getItemPosition(pager);
         imageFragment.setArguments(bundle);
         CustomAdapter.addItem(imageFragment);
         CustomAdapter.notifyDataSetChanged();
@@ -784,11 +744,7 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
         CustomAdapter.notifyDataSetChanged();
         pager= (ViewPager)findViewById(R.id.pager);
 
-        /*
-        Bundle args = imageFragment.getArguments();
-        String s1 = Integer.toString(CustomAdapter.getCount());
-        Toast.makeText(this, s + s1, Toast.LENGTH_LONG).show();
-        */
+
         int length=CustomAdapter.getCount();
         if (pager.getCurrentItem()>-1 && pager.getCurrentItem() <length) {
             int number =pager.getCurrentItem();
@@ -808,10 +764,6 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
     {
         e.printStackTrace();
 
-       /* StringWriter errors =new StringWriter();
-        e.printStackTrace(new PrintWriter(errors));
-        Log.i("TAG", errors.toString());
-        inputText.setText(errors.toString());*/
     }
     }
 
@@ -839,7 +791,7 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             mediaScanIntent.setData(photoUri);
             sendBroadcast(mediaScanIntent);
-      //      Toast.makeText(this,"사진이 저장되었습니다",Toast.LENGTH_SHORT).show();
+
 
         }
     }
@@ -868,8 +820,6 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
 
             File f = new File(PathImg);
             if (!f.isDirectory()) f.mkdirs();
-//fr.getParentFragment()
-          //  v.buildDrawingCache();
 
         Bundle args = fr.getArguments();
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -887,10 +837,7 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
         }
     catch (Exception e){
         e.printStackTrace();
-        /*   StringWriter errors =new StringWriter();
-        e.printStackTrace(new PrintWriter(errors));
-        Log.i("TAG", errors.toString());
-        inputText.setText(errors.toString());*/
+
     }
 
     return CP;
@@ -899,16 +846,11 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
     public void saveImage( String msgImg , int picnum) { //사진 저장
         File file = new File(PathImg + "/" + msgImg + "_" + picnum + ".jpg");
 
-        //Bitmap bm = BitmapFactory.decodeStream(fisimg);
         imageFragment = new ImageFragment();
         Bundle bundle = new Bundle();
-
         bundle.putString("imgRes", file.getAbsolutePath());
-
-   imageFragment.setArguments(bundle);
-
-       CustomAdapter.addItem(imageFragment);
-      //  CustomAdapter.setItem(picnum-1,imageFragment);
+        imageFragment.setArguments(bundle);
+        CustomAdapter.addItem(imageFragment);
         CustomAdapter.notifyDataSetChanged();
 
 
@@ -928,27 +870,9 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
 
     public  void urlImage(String urladdr) { //사진 저장
 
-       // urladdr = "https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
+
         if(urladdr.contains("http") ) {
-             /*
-//&& urladdr.contains(".")
-            int fileindex2 = urladdr.lastIndexOf(".");
-            String jpg = urladdr.substring(fileindex2, urladdr.length()).toLowerCase();
 
-        if (jpg.contains("jpg") || jpg.contains("png") || jpg.contains("bmp") || jpg.contains("raw")
-                    || jpg.contains("jpg") || jpg.contains("gif") || jpg.contains("tif")
-                    || jpg.contains("jpeg") || jpg.contains("rle") || jpg.contains("dib")) {
-                new ImageDownload().execute(urladdr);
-
-            } else {
-
-                Toast.makeText(getApplicationContext(),"이미지 주소 확인바람",Toast.LENGTH_SHORT).show();
-                inputText.setText("");
-
-
-                return;
-            }
-            */
             new ImageDownload().execute(urladdr);
         }
         else{
@@ -962,102 +886,21 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
 
 
 
-
-
-
-    /*    urladdr = "https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
-
-        try {
-
-            URL url = new URL("https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
-
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-            conn.setRequestMethod("GET");
-            conn.setReadTimeout(10000); // millis
-            conn.setConnectTimeout(15000); // millis
-            //SS
-            //URLConnection conn = url.openConnection();
-            Toast.makeText(getApplicationContext(), "야", Toast.LENGTH_SHORT).show();
-            conn.setDoInput(true);
-            conn.connect();
-            Toast.makeText(getApplicationContext(), "왜안대", Toast.LENGTH_SHORT).show();
-
-
-            BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
-            Toast.makeText(getApplicationContext(), "요거당", Toast.LENGTH_SHORT).show();
-
-            Bitmap bitmap = BitmapFactory.decodeStream(bis);
-            Toast.makeText(getApplicationContext(), "fasfas", Toast.LENGTH_SHORT).show();
-
-            bis.close();
-
-            FileOutputStream fos;
-
-
-            if (bitmap != null) {
-                try {
-
-                    String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-                    String imageFileName = "URLImageFile_" + timeStamp;
-
-
-                    fos = new FileOutputStream(PathTmpImg + "/" + imageFileName + ".jpg");
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
-                    File tmpf = new File(PathTmpImg, imageFileName + ".jpg");
-                    if (tmpf.isFile() == true) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("imgRes", tmpf.getAbsolutePath());
-                        imageFragment.setArguments(bundle);
-                        CustomAdapter.addItem(imageFragment);
-                        CustomAdapter.notifyDataSetChanged();
-
-
-                        Toast.makeText(this, "gffgsd", Toast.LENGTH_SHORT).show();
-
-                    }
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            StringWriter errors = new StringWriter();
-            e.printStackTrace(new PrintWriter(errors));
-            Log.i("TAG", errors.toString());
-            inputText.setText(errors.toString());
-
-        }
-*/
-
     }
     private class ImageDownload extends AsyncTask<String, Void, Void> {
 
-        /**
-         * 파일명
-         */
+
         private String fileName;
 
-        /**
-         * 저장할 폴더
-         */
-     //   private final String SAVE_FOLDER = "/save_folder";
+
 
         @Override
         protected Void doInBackground(String... params) {
 
-            //다운로드 경로를 지정
             String savePath = PathTmpImg;
 
             File dir = new File(savePath);
 
-            //상위 디렉토리가 존재하지 않을 경우 생성
             if (!dir.exists()) {
                 dir.mkdirs();
             }
@@ -1073,7 +916,6 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
             String fileUrl = params[0];
 
 
-            //다운로드 폴더에 동일한 파일명이 존재하는지 확인
 
             while (new File(savePath + "/" + fileName).exists() == false) {
             if(new File(savePath + "/" + fileName).exists() == false)
@@ -1083,9 +925,8 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
                     ++i;
                 fileName ="URLImageFile_"+date +"_"+i;
             }
-           // fileName ="URLImageFile_"+date +"_"+i;
+
             String localPath = savePath + "/" + fileName + ".jpg";
-          //  fileUrl = params[0];
             URL imgUrl;
             HttpURLConnection conn;
 
@@ -1124,17 +965,17 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
                 is = conn.getInputStream();
 
              } catch (IOException exception) {
-             //    Toast.makeText(thCis,"이미지 임시 저장 실패",Toast.LENGTH_SHORT).show();
+
 
                 fileName=null;
                  return null;
-             //    exception.printStackTrace();
+
              }
                 File file = new File(localPath);
-                //파일 저장 스트림 생성
+
                 FileOutputStream fos = new FileOutputStream(file);
                 int read;
-                //입력 스트림을 파일로 저장
+
 
                     for (; ; ) {
                         read = is.read(tmpByte);
@@ -1144,12 +985,8 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
                         fos.write(tmpByte, 0, read); //file 생성
                     }
 
-              /*  catch (Exception e){
-                    file.delete();
-                    fileName=null;
-                    return null;
-                }
-*/
+
+
                 Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 if(bitmap==null)
                 {
@@ -1176,7 +1013,7 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
-            //저장한 이미지 열기
+
             try {
                 String targetDir = PathTmpImg;
 
@@ -1220,19 +1057,11 @@ Toast.makeText(this,tmpf.getAbsolutePath(),Toast.LENGTH_SHORT).show();
                     urlText.setText("");
                     return;
                 }
-                //type 지정 (이미지)
-         /*
-           Intent i = new Intent(Intent.ACTION_VIEW);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-         i.setDataAndType(Uri.fromFile(file), "image/*");
-            getApplicationContext().startActivity(i);
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-        */
+
             }
             catch (Exception e)
             {
 
-                //e.printStackTrace();
                 Toast.makeText(getApplicationContext(),"이미지 불러오기 실패",Toast.LENGTH_SHORT).show();
                 urlText.setText("");
                 return;
